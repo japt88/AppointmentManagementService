@@ -1,6 +1,8 @@
 ﻿using AppointmentManagementService.Data.UnitOfWork;
+using AppointmentManagementService.Domain.Appointment;
 using AppointmentManagementService.Entities;
 using AppointmentManagementService.Services.Contracts;
+using AutoMapper;
 using FluentResults;
 
 namespace AppointmentManagementService.Services
@@ -8,10 +10,12 @@ namespace AppointmentManagementService.Services
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public AppointmentService(IAppointmentUnitOfWork unitOfWork)
+        public AppointmentService(IAppointmentUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<Result<string>> CancelAppointment(Guid appointmentId)
@@ -28,19 +32,26 @@ namespace AppointmentManagementService.Services
             return Result.Fail("The appointment has been canceled.");
         }
 
-        public async Task<Result<Appointment>> ScheduleAppointment(Appointment appointment)
+        public async Task<Result<AppointmentDto>> ScheduleAppointment(CreateAppointmentDto appointmentDto)
         {
             var existingAppointments = await _unitOfWork.Appointments.GetAllAsync();
-            if (existingAppointments.Any(a => a.PatientId == appointment.PatientId &&
-                                              a.AppointmentDate.Date == appointment.AppointmentDate.Date &&
+            if (existingAppointments.Any(a => a.PatientId == appointmentDto.PatientId &&
+                                              a.AppointmentDate.Date == appointmentDto.AppointmentDate.Date &&
                                               !a.IsCanceled))
             {
                 return Result.Fail("A patient cannot book more than one appointment on the same day.");
             }
 
+            var appointment = _mapper.Map<Appointment>(appointmentDto);
             await _unitOfWork.Appointments.AddAsync(appointment);
             await _unitOfWork.CompleteAsync();
-            return Result.Ok(appointment);
+            return Result.Ok(_mapper.Map<AppointmentDto>(appointment));
+        }
+
+        public async Task<IEnumerable<AppointmentDto>> GetPatientAppointments(Guid patientId)
+        {
+            var appointments = await _unitOfWork.Appointments.GetAllPatientAppointmentsAsync(patientId);
+            return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace AppointmentManagementService.Data.UnitOfWork
     {
         private readonly AppointmentDbContext _context;
 
-        public IGenericRepository<Appointment> Appointments { get; }
+        public IAppointmentRepository Appointments { get; }
 
         public IGenericRepository<Patient> Patients { get; }
 
@@ -17,7 +17,7 @@ namespace AppointmentManagementService.Data.UnitOfWork
         public AppointmentUnitOfWork(AppointmentDbContext context)
         {
             _context = context;
-            Appointments = new GenericRepository<Appointment>(context);
+            Appointments = new AppointmentRepository(context);
             Patients = new GenericRepository<Patient>(context);
         }
 

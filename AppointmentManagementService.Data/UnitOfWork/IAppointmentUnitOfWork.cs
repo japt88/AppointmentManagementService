@@ -5,7 +5,7 @@ namespace AppointmentManagementService.Data.UnitOfWork
 {
     public interface IAppointmentUnitOfWork : IDisposable
     {
-        IGenericRepository<Appointment> Appointments { get; }
+        IAppointmentRepository Appointments { get; }
         IGenericRepository<Patient> Patients { get; }
         Task<int> CompleteAsync();
     }

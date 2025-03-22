@@ -1,4 +1,4 @@
-﻿namespace AppointmentManagementService.Entities
+﻿namespace AppointmentManagementService.Shared.Enums
 {
     public enum AppointmentType
     {
