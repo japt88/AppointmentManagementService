@@ -1,3 +1,4 @@
+using AppointmentManagementService.Api.Filters;
 using AppointmentManagementService.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -13,8 +14,10 @@ builder.Services.AddCors(options =>
 
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidateModelFilter>();  
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -40,7 +43,7 @@ builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
-app.UseCors("AllowAll"); // Apply CORS policy
+//app.UseCors("AllowAll"); // Apply CORS policy
 
 
 // Configure the HTTP request pipeline.
