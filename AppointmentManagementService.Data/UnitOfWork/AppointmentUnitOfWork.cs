@@ -1,7 +1,4 @@
 ﻿using AppointmentManagementService.Data.Repositories;
-using AppointmentManagementService.Data;
-using AppointmentManagementService.Data.Repositories;
-using AppointmentManagementService.Entities;
 
 namespace AppointmentManagementService.Data.UnitOfWork
 {
@@ -11,14 +8,14 @@ namespace AppointmentManagementService.Data.UnitOfWork
 
         public IAppointmentRepository Appointments { get; }
 
-        public IGenericRepository<Patient> Patients { get; }
+        public IPatientRepository Patients { get; }
 
 
         public AppointmentUnitOfWork(AppointmentDbContext context)
         {
             _context = context;
             Appointments = new AppointmentRepository(context);
-            Patients = new GenericRepository<Patient>(context);
+            Patients = new PatientRepository(context);
         }
 
         public async Task<int> CompleteAsync()

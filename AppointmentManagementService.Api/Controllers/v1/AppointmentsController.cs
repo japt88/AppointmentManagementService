@@ -1,15 +1,14 @@
 ﻿using AppointmentManagementService.Domain.Appointment;
 using AppointmentManagementService.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/v1/appointments")]
 [ApiExplorerSettings(GroupName = "v1")]
 [Produces("application/json")]
+
+[Authorize]
 public class AppointmentsController : ControllerBase
 {
     private readonly IAppointmentService _appointmentService;

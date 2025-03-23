@@ -1,9 +1,12 @@
 ﻿using AppointmentManagementService.Domain.Patient;
 using AppointmentManagementService.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/v1/patients")]
+
+[Authorize]
 public class PatientsController : ControllerBase
 {
     private readonly IPatientService _patientService;

@@ -20,6 +20,13 @@ namespace AppointmentManagementService.Services
 
         public async Task<Result<PatientDto>> CreatePatient(CreatePatientDto patientDto)
         {
+            // Check if email already exists
+            var existingPatient = await _unitOfWork.Patients.GetByEmailAsync(patientDto.Email);
+            if (existingPatient != null)
+            {
+                return Result.Fail("A patient with this email already exists.");
+            }
+
             var patient = _mapper.Map<Patient>(patientDto);
             await _unitOfWork.Patients.AddAsync(patient);
             await _unitOfWork.CompleteAsync();
@@ -40,18 +47,28 @@ namespace AppointmentManagementService.Services
 
         public async Task<Result<PatientDto>> UpdatePatient(Guid id, CreatePatientDto patientDto)
         {
-            var existingPatient = await _unitOfWork.Patients.GetByIdAsync(id);
-            if (existingPatient == null)
+            var daoPatient = await _unitOfWork.Patients.GetByIdAsync(id);
+            if (daoPatient == null)
             {
                 return Result.Fail("The patient does not exists.");
             }
 
-            _mapper.Map(patientDto, existingPatient);
+            // Check if the new email is already taken by another patient
+            if (!string.Equals(daoPatient.Email, patientDto.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                var existingPatient = await _unitOfWork.Patients.GetByEmailAsync(patientDto.Email);
+                if (existingPatient != null && existingPatient.Id != id)
+                {
+                    return Result.Fail("A patient with this email already exists.");
+                }
+            }
 
-            await _unitOfWork.Patients.UpdateAsync(existingPatient);
+            _mapper.Map(patientDto, daoPatient);
+
+            await _unitOfWork.Patients.UpdateAsync(daoPatient);
             await _unitOfWork.CompleteAsync();
 
-            return Result.Ok(_mapper.Map<PatientDto>(existingPatient));
+            return Result.Ok(_mapper.Map<PatientDto>(daoPatient));
         }
     }
 }

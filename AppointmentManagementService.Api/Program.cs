@@ -1,6 +1,11 @@
+using AppointmentManagementService.Api.Authentication;
 using AppointmentManagementService.Api.Filters;
 using AppointmentManagementService.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +17,26 @@ builder.Services.AddCors(options =>
                           .AllowAnyHeader());
 });
 
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -29,6 +54,32 @@ builder.Services.AddSwaggerGen(c =>
         Title = "Clinic API",
         Description = "API for generating appointments"
     });
+
+    // Define security scheme
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter 'Bearer {token}'",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+
+    // Apply security globally
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            securityScheme, new string[] { }
+        }
+    });
 });
 
 
@@ -37,6 +88,10 @@ var configuration = builder.Configuration;
 
 // Add DbContext
 builder.Services.AddDatabaseContext(configuration);
+
+
+// Register services
+builder.Services.AddSingleton<TokenService>();
 
 // Add services from the Dependency Injection Library
 builder.Services.AddApplicationServices();
@@ -60,6 +115,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication(); // Enable Authentication
 
 app.UseAuthorization();
 
