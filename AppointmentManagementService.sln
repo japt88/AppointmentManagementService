@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManagementServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManagementService.Services", "AppointmentManagementService.Services\AppointmentManagementService.Services.csproj", "{07934A53-3A82-448E-AB7B-DBB906413E23}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F158A4DD-C7B5-42B5-B871-805B1CB05FED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManagementService.Tests", "AppointmentManagementService.Tests\AppointmentManagementService.Tests.csproj", "{CD48B11E-ED10-49C6-BB61-59A062995E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,8 +55,15 @@ Global
 		{07934A53-3A82-448E-AB7B-DBB906413E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07934A53-3A82-448E-AB7B-DBB906413E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07934A53-3A82-448E-AB7B-DBB906413E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD48B11E-ED10-49C6-BB61-59A062995E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD48B11E-ED10-49C6-BB61-59A062995E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD48B11E-ED10-49C6-BB61-59A062995E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD48B11E-ED10-49C6-BB61-59A062995E18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD48B11E-ED10-49C6-BB61-59A062995E18} = {F158A4DD-C7B5-42B5-B871-805B1CB05FED}
 	EndGlobalSection
 EndGlobal

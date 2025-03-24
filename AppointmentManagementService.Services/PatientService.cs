@@ -20,6 +20,9 @@ namespace AppointmentManagementService.Services
 
         public async Task<Result<PatientDto>> CreatePatient(CreatePatientDto patientDto)
         {
+            if (patientDto.DateOfBirth is null || patientDto.DateOfBirth == default(DateTime) || patientDto.DateOfBirth == DateTime.MinValue)
+                return Result.Fail("Date of Birth is required.");
+
             // Check if email already exists
             var existingPatient = await _unitOfWork.Patients.GetByEmailAsync(patientDto.Email);
             if (existingPatient != null)

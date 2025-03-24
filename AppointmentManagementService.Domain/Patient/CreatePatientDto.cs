@@ -17,6 +17,6 @@ namespace AppointmentManagementService.Domain.Patient
         [MaxLength(20)]
         public string Phone { get; set; }
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
     }
 }
