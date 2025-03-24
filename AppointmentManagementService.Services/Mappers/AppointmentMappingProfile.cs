@@ -1,4 +1,5 @@
-﻿using AppointmentManagementService.Domain.Patient;
+﻿using AppointmentManagementService.Domain.Appointment;
+using AppointmentManagementService.Domain.Patient;
 using AppointmentManagementService.Entities;
 using AutoMapper;
 
@@ -13,6 +14,10 @@ namespace AppointmentManagementService.Services.Mappers
 
             CreateMap<CreatePatientDto, Patient>()
                .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(x => x.Phone));
+
+            CreateMap<Appointment, AppointmentDto>();
+
+            CreateMap<CreateAppointmentDto, Appointment>();
         }
     }
 }

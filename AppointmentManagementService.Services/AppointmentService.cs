@@ -34,6 +34,12 @@ namespace AppointmentManagementService.Services
 
         public async Task<Result<AppointmentDto>> ScheduleAppointment(CreateAppointmentDto appointmentDto)
         {
+            var patientData= await _unitOfWork.Patients.GetByIdAsync(appointmentDto.PatientId);
+            if (patientData == null)
+            {
+                return Result.Fail("The patient does not exist.");
+            }
+
             var existingAppointments = await _unitOfWork.Appointments.GetAllAsync();
             if (existingAppointments.Any(a => a.PatientId == appointmentDto.PatientId &&
                                               a.AppointmentDate.Date == appointmentDto.AppointmentDate.Date &&
