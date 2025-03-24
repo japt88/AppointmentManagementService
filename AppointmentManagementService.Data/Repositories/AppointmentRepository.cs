@@ -13,6 +13,11 @@ namespace AppointmentManagementService.Data.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<Appointment>> GetAllActivePatientAppointmentsAsync(Guid patientId)
+        {
+            return await _context.Appointments.Where(a => a.PatientId == patientId && !a.IsCanceled).ToListAsync();
+        }
+
         public async Task<IEnumerable<Appointment>> GetAllPatientAppointmentsAsync(Guid patientId)
         {
             return await _context.Appointments.Where(a => a.PatientId == patientId).ToListAsync();
