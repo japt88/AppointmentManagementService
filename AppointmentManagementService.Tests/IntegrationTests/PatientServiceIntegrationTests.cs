@@ -1,7 +1,6 @@
 ﻿using AppointmentManagementService.Data;
 using AppointmentManagementService.Data.UnitOfWork;
 using AppointmentManagementService.Domain.Patient;
-using AppointmentManagementService.Entities;
 using AppointmentManagementService.Services;
 using AppointmentManagementService.Services.Mappers;
 using AutoMapper;
