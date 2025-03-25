@@ -44,8 +44,8 @@ namespace AppointmentManagementService.Tests.IntegrationTests
         }
 
         [Theory]
-        [InlineData("judypinilla@outlook.com", "Judy", "Pinilla", "1988-07-27", "3116742281")]
-        [InlineData("jhon.doe@example.com", "Jhon", "Doe", "1993-09-21", "3215647687")]
+        [InlineData("judypinilla27@outlook.com", "Judy", "Pinilla", "1988-07-27", "3116742281")]
+        [InlineData("jhon.doe27@example.com", "Jhon", "Doe", "1993-09-21", "3215647687")]
         public async Task CreatePatient_ShouldSucceed_WhenValidDataIsProvided(string email, string firstName, string lastName, string dateOfBirth, string phoneNumber)
         {
             // Arrange

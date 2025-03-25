@@ -67,12 +67,12 @@ public class PatientServiceTests
     [Fact]
     public async Task GetPatientByIdAsync_ShouldReturnSuccess_WhenPatientExists()
     {
-        // Arrange
+        // Arrange 
         Guid patientId = Guid.NewGuid(); 
         var existingPatient = new Patient { Id = patientId, Email = "judypinilla@gmail.com" };
         var expectedPatientDto = new PatientDto { Id = patientId, Email = "judypinilla@gmail.com" };
 
-        _patientRepositoryMock.Setup(r => r.GetByIdAsync(patientId)).ReturnsAsync(existingPatient);
+        _patientRepositoryMock.Setup(r => r.GetByIdIncludingAppointmentsAsync(patientId)).ReturnsAsync(existingPatient);
         _mapperMock.Setup(m => m.Map<PatientDto>(existingPatient)).Returns(expectedPatientDto);
 
         // Act
@@ -88,7 +88,7 @@ public class PatientServiceTests
     {
         // Arrange
         Guid patientId = Guid.NewGuid();
-        _patientRepositoryMock.Setup(r => r.GetByIdAsync(patientId)).ReturnsAsync((Patient)null);
+        _patientRepositoryMock.Setup(r => r.GetByIdIncludingAppointmentsAsync(patientId)).ReturnsAsync((Patient)null);
 
         // Act
         var result = await _patientService.GetPatientById(patientId);

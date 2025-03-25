@@ -15,5 +15,10 @@ namespace AppointmentManagementService.Data.Repositories
         {
             return await _context.Patients.FirstOrDefaultAsync(p => p.Email == email);
         }
+
+        public async Task<Patient?> GetByIdIncludingAppointmentsAsync(Guid id)
+        {
+            return await _context.Patients.Include(x => x.Appointments).FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

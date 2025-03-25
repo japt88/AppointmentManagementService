@@ -1,4 +1,6 @@
-﻿namespace AppointmentManagementService.Domain.Patient
+﻿using AppointmentManagementService.Domain.Appointment;
+
+namespace AppointmentManagementService.Domain.Patient
 {
     public class PatientDto
     {
@@ -8,5 +10,6 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public List<AppointmentDto> Appointments { get; set; }
     }
 }

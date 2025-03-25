@@ -38,7 +38,7 @@ namespace AppointmentManagementService.Services
 
         public async Task<PatientDto> GetPatientById(Guid id)
         {
-            var patient = await _unitOfWork.Patients.GetByIdAsync(id);
+            var patient = await _unitOfWork.Patients.GetByIdIncludingAppointmentsAsync(id);
             return _mapper.Map<PatientDto>(patient);
         }
 

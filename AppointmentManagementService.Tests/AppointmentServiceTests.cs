@@ -53,7 +53,7 @@ namespace AppointmentManagementService.Tests
 
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Contains("Patient does not exist.", result.Errors.Select(e => e.Message));
+            Assert.Contains("The patient does not exist.", result.Errors.Select(e => e.Message));
         }
 
         [Fact]

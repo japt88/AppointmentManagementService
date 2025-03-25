@@ -10,7 +10,8 @@ namespace AppointmentManagementService.Services.Mappers
         public AppointmentMappingProfile()
         {
             CreateMap<Patient, PatientDto>()
-               .ForMember(d => d.Phone, opt => opt.MapFrom(x => x.PhoneNumber));
+               .ForMember(d => d.Phone, opt => opt.MapFrom(x => x.PhoneNumber))
+               .ForMember(d => d.Appointments, opt => opt.MapFrom(x => x.Appointments));
 
             CreateMap<CreatePatientDto, Patient>()
                .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(x => x.Phone));

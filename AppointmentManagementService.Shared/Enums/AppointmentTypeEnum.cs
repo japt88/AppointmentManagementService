@@ -1,4 +1,6 @@
-﻿namespace AppointmentManagementService.Shared.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AppointmentManagementService.Shared.Enums
 {
     public enum AppointmentType
     {
